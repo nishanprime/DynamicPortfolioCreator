@@ -177,7 +177,11 @@ export default function DetailInput() {
                       <p className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         Shareable Link:
                       </p>
-                      <a href={`${mainURL}/user/${username}`} target="_blank">
+                      <a
+                        href={`${mainURL}/user/${username}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         <p className="text-blue-500 underline">{`${mainURL}/user/${username}`}</p>
                       </a>
                     </div>
@@ -260,7 +264,7 @@ export default function DetailInput() {
                         </p>
                       </div>
                       <div>
-                        <img src={profilePicture} height="80" width="80" />
+                        <Image src={profilePicture} height="80" width="80" />
                         <p>Current Picture</p>
                       </div>
                     </div>
@@ -307,7 +311,7 @@ export default function DetailInput() {
                         <p class="text-xs text-gray-500">Selected File</p>
                       </div>
                       <div>
-                        <img
+                        <Image
                           src="https://dazzlesl.info/wp-content/uploads/2021/05/quartadis180900107.jpg"
                           height="80"
                           width="80"
@@ -316,6 +320,7 @@ export default function DetailInput() {
                           href={resume}
                           target="_blank"
                           className="text-blue-500 cursor-pointer underline"
+                          rel="noreferrer"
                         >
                           Current Resume (Click here)
                         </a>
@@ -365,7 +370,7 @@ export default function DetailInput() {
                     />
                     <p className={'text-xs text-gray-500'}>
                       {' '}
-                      Eg: Let's build something together...
+                      Eg: Lets build something together...
                     </p>
                   </div>
                   <div className="col-span-2">

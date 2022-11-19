@@ -33,6 +33,7 @@ const Projects = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {personalProjects.map((project, index) => (
               <PeronalProject
+                key={index}
                 porjectName={project['project-title']}
                 link={project['project-link']}
                 description={project['project-description']}

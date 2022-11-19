@@ -62,14 +62,18 @@ const Main = () => {
                 </div>
               </Link>
               <div className="hidden md:block">
-                <a href={resume} target="_blank">
+                <a href={resume} target="_blank" rel="noreferrer">
                   <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
                     <BsFillPersonLinesFill />
                   </div>
                 </a>
               </div>
               <div className="md:hidden">
-                <a href="assets/nishan-thapa-resume.pdf" target={'_blank'}>
+                <a
+                  href="assets/nishan-thapa-resume.pdf"
+                  target={'_blank'}
+                  rel="noreferrer"
+                >
                   <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
                     <BsFillPersonLinesFill />
                   </div>
