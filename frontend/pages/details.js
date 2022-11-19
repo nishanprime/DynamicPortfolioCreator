@@ -30,6 +30,7 @@ export default function DetailInput() {
   const [mainURL, setMainURL] = useState('');
   const [email, setEmail] = useState('');
   const [fileUploading, setFileUploading] = useState(false);
+  const [pictureUploading, setPictureUploading] = useState(false);
   const router = useRouter();
 
   const handleChange = (e, index) => {
@@ -78,6 +79,7 @@ export default function DetailInput() {
     const formData = new FormData();
     try {
       if (targetFile === 'profile-upload') {
+        setPictureUploading(true);
         formData.append('upload', file);
         const config = {
           headers: {
@@ -85,7 +87,6 @@ export default function DetailInput() {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        setFileUploading(true);
         const { data } = await axios.post(
           `${process.env.BACKEND_URI}/users/upload/profile`,
           formData,
@@ -95,10 +96,12 @@ export default function DetailInput() {
         console.log('Printing data from profile upload: ', data);
         console.log(data);
         setProfilePicture(data);
+        setPictureUploading(false);
         setFileUploading(false);
 
         return;
       } else if (targetFile === 'resume-upload') {
+        setFileUploading(true);
         formData.append('upload', file);
         const config = {
           headers: {
@@ -112,8 +115,13 @@ export default function DetailInput() {
           config
         );
         setResume(data);
+        setPictureUploading(false);
+        setFileUploading(false);
+        return;
       } else {
         alert('Something went wrong');
+        setPictureUploading(false);
+        setFileUploading(false);
         return;
       }
     } catch (error) {
@@ -163,311 +171,362 @@ export default function DetailInput() {
 
           <form onSubmit={formSubmitHandler} encType="multipart/form-data">
             <div className="overflow-hidden shadow sm:rounded-md">
-              <div className="bg-transparent px-4 py-5 sm:p-6">
-                <div className="grid grid-cols-6 gap-6">
-                  <div className="col-span-2 sm:col-span-2">
-                    <label
-                      htmlFor="first-name"
-                      className="block text-lg font-medium text-gray-700"
-                    >
-                      Username
-                    </label>
-                    <text className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+              <div className="px-4 py-5 sm:p-6 justify-around grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="sm:text-center">
+                  <label
+                    htmlFor="first-name"
+                    className="block text-lg font-medium text-gray-700"
+                  >
+                    Username{': '}
+                    <span className="rounded-md text-blue-500 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                      {' '}
                       {username}
-                    </text>
-
-                    <label
-                      htmlFor="first-name"
-                      className="block text-lg font-medium text-gray-700 mt-2"
-                    >
-                      Registered Email
-                    </label>
-                    <text className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </span>
+                  </label>
+                </div>
+                <div className="sm:text-center">
+                  <label
+                    htmlFor="registed-email"
+                    className="block text-lg font-medium text-gray-700"
+                  >
+                    Registered Email{': '}
+                    <span className="rounded-md text-blue-500 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                      {' '}
                       {email}
-                    </text>
-                    <div className="flex justify-start gap-3 items-center mt-2">
-                      <p className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        Shareable Link:
-                      </p>
+                    </span>
+                  </label>
+                </div>
+                <div className="sm:text-center">
+                  <label
+                    htmlFor="first-name"
+                    className="block text-lg font-medium text-gray-700"
+                  >
+                    Shareable Link{': '}
+                    <span className="rounded-md text-blue-500 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                      {' '}
                       <a
                         href={`${mainURL}/user/${username}`}
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <p className="text-blue-500 underline">{`${mainURL}/user/${username}`}</p>
+                        <span className="rounded-md text-blue-500 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                          {' '}
+                          {`${mainURL}/user/${username}`}
+                        </span>
                       </a>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div className="bg-transparent px-4 py-5 sm:p-6 ">
+                <div className="flex flex-col space-y-10">
+                  <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="">
+                      <label
+                        htmlFor="first-name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        First name
+                      </label>
+                      <input
+                        type="text"
+                        name="first-name"
+                        required
+                        id="first-name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
                     </div>
-                  </div>
-                  <div className="col-span-2 sm:col-span-2">
-                    <label
-                      htmlFor="first-name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      First name
-                    </label>
-                    <input
-                      type="text"
-                      name="first-name"
-                      required
-                      id="first-name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
 
-                  <div className="col-span-2 sm:col-span-2">
-                    <label
-                      htmlFor="last-name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Last name
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      name="last-name"
-                      id="last-name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      autoComplete="family-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Profile Picture
-                    </label>
-                    <div class="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div class="space-y-1 text-center">
-                        <svg
-                          class="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                        <div class="flex text-sm text-gray-600 justify-center">
-                          {fileUploading ? (
-                            <label
-                              for="profile-upload"
-                              class="cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Uploading...</span>
-                            </label>
-                          ) : (
-                            <label
-                              for="profile-upload"
-                              class="cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Upload a picture</span>
-                              <input
-                                id="profile-upload"
-                                name="profile-upload"
-                                accept="image/*"
-                                onChange={profilePictureUploadHandler}
-                                type="file"
-                                class="sr-only"
-                              />
-                            </label>
-                          )}
+                    <div className="">
+                      <label
+                        htmlFor="last-name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Last name
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        name="last-name"
+                        id="last-name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        autoComplete="family-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    <div className="">
+                      <label class="block text-sm font-medium text-gray-700">
+                        Profile Picture
+                      </label>
+                      <div class="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                        <div class="space-y-1 text-center">
+                          <svg
+                            class="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <div class="flex text-sm text-gray-600 justify-center">
+                            {pictureUploading ? (
+                              <label
+                                for="profile-upload"
+                                class="cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                              >
+                                <span>Uploading...</span>
+                              </label>
+                            ) : (
+                              <label
+                                for="profile-upload"
+                                class="cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                              >
+                                <span>Upload a picture</span>
+                                <input
+                                  id="profile-upload"
+                                  name="profile-upload"
+                                  accept="image/*"
+                                  onChange={profilePictureUploadHandler}
+                                  type="file"
+                                  class="sr-only"
+                                />
+                              </label>
+                            )}
+                          </div>
+                          <p class="text-xs text-gray-500">
+                            PNG, JPG, GIF up to 5MB
+                          </p>
                         </div>
-                        <p class="text-xs text-gray-500">
-                          PNG, JPG, GIF up to 5MB
-                        </p>
-                      </div>
-                      <div>
-                        <Image src={profilePicture} height="80" width="80" />
-                        <p>Current Picture</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Resume Upload */}
-                  <div className="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Resume
-                    </label>
-                    <div class="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div class="space-y-1 text-center">
-                        <svg
-                          class="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                        <div class="flex text-sm text-gray-600 justify-center">
-                          {fileUploading ? (
-                            <label
-                              for="resume-upload"
-                              class="relative cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Uploading...</span>
-                              <input
-                                id="resume-upload"
-                                name="resume-upload"
-                                type="file"
-                                onChange={profilePictureUploadHandler}
-                                class="sr-only"
-                              />
-                            </label>
-                          ) : (
-                            <label
-                              for="resume-upload"
-                              class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Upload a resume</span>
-                              <input
-                                id="resume-upload"
-                                name="resume-upload"
-                                type="file"
-                                onChange={profilePictureUploadHandler}
-                                class="sr-only"
-                              />
-                            </label>
-                          )}
+                        <div>
+                          <Image src={profilePicture} height="80" width="80" />
+                          <p>Current Picture</p>
                         </div>
-                        <p class="text-xs text-gray-500">
-                          PDF, DOCX, TXT up to 5MB
-                        </p>
-                        <p class="text-xs text-gray-500">Selected File</p>
                       </div>
-                      <div>
-                        <Image
-                          src="https://dazzlesl.info/wp-content/uploads/2021/05/quartadis180900107.jpg"
-                          height="80"
-                          width="80"
-                        />
-                        <a
-                          href={resume}
-                          target="_blank"
-                          className="text-blue-500 cursor-pointer underline"
-                          rel="noreferrer"
-                        >
-                          Current Resume (Click here)
-                        </a>
+                    </div>
+                    <div className="">
+                      <label class="block text-sm font-medium text-gray-700">
+                        Resume
+                      </label>
+                      <div class="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                        <div class="space-y-1 text-center">
+                          <svg
+                            class="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <div class="flex text-sm text-gray-600 justify-center">
+                            {fileUploading ? (
+                              <label
+                                for="resume-upload"
+                                class="relative cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                              >
+                                <span>Uploading...</span>
+                                <input
+                                  id="resume-upload"
+                                  name="resume-upload"
+                                  type="file"
+                                  onChange={profilePictureUploadHandler}
+                                  class="sr-only"
+                                />
+                              </label>
+                            ) : (
+                              <label
+                                for="resume-upload"
+                                class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                              >
+                                <span>Upload a resume</span>
+                                <input
+                                  id="resume-upload"
+                                  name="resume-upload"
+                                  type="file"
+                                  onChange={profilePictureUploadHandler}
+                                  class="sr-only"
+                                />
+                              </label>
+                            )}
+                          </div>
+                          <p class="text-xs text-gray-500">
+                            PDF, DOCX, TXT up to 5MB
+                          </p>
+                          <p class="text-xs text-gray-500">Selected File</p>
+                        </div>
+                        <div>
+                          <Image
+                            src="https://dazzlesl.info/wp-content/uploads/2021/05/quartadis180900107.jpg"
+                            height="80"
+                            width="80"
+                          />
+                          <a
+                            href={resume}
+                            target="_blank"
+                            className="text-blue-500 cursor-pointer underline"
+                            rel="noreferrer"
+                          >
+                            Current Resume (Click here)
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  {/* title intro outro */}
+                  <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-6">
+                    <div className="">
+                      <label
+                        htmlFor="title"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Title
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        name="title"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                      <p className={'text-xs text-gray-500'}>
+                        {' '}
+                        Eg: Full Stack Developer | Lead Mech Engineer
+                      </p>
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="short-intro"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Intro
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        name="intro"
+                        id="intro"
+                        value={intro}
+                        onChange={(e) => setIntro(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                      <p className={'text-xs text-gray-500'}>
+                        {' '}
+                        Eg: Lets build something together...
+                      </p>
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="short-end-description"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Outro
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        name="end-description"
+                        id="end-description"
+                        value={endDescription}
+                        onChange={(e) => setEndDescription(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                      <p className={'text-xs text-gray-500'}>
+                        {' '}
+                        Eg: I specialize in building full stack applications...
+                      </p>
+                    </div>
+                  </div>
 
-                  <br />
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="title"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Title
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      name="title"
-                      id="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                    <p className={'text-xs text-gray-500'}>
-                      {' '}
-                      Eg: Full Stack Developer | Lead Mech Engineer
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="short-intro"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Intro
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      name="intro"
-                      id="intro"
-                      value={intro}
-                      onChange={(e) => setIntro(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                    <p className={'text-xs text-gray-500'}>
-                      {' '}
-                      Eg: Lets build something together...
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="short-end-description"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Outro
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      name="end-description"
-                      id="end-description"
-                      value={endDescription}
-                      onChange={(e) => setEndDescription(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                    <p className={'text-xs text-gray-500'}>
-                      {' '}
-                      Eg: I specialize in building full stack applications...
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <label
-                      htmlFor="short-intro"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      GitHub Link
-                    </label>
-                    <input
-                      type="text"
-                      name="github-link"
-                      placeholder="eg: https://github.com/nishanprime"
-                      id="github-link"
-                      value={githubLink}
-                      onChange={(e) => setGithubLink(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div className="col-span-3">
-                    <label
-                      htmlFor="short-intro"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      LinkedIn Link
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="eg: https://www.linkedin.com/in/nishanprime/"
-                      name="linkedin-link"
-                      id="linkedin-link"
-                      value={linkedinLink}
-                      onChange={(e) => setLinkedinLink(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
+                  {/* Link Section  */}
+                  <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-6">
+                    <div className="">
+                      <label
+                        htmlFor="short-intro"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        GitHub Link
+                      </label>
+                      <input
+                        type="text"
+                        name="github-link"
+                        placeholder="eg: https://github.com/nishanprime"
+                        id="github-link"
+                        value={githubLink}
+                        onChange={(e) => setGithubLink(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="short-intro"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        LinkedIn Link
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="eg: https://www.linkedin.com/in/nishanprime/"
+                        name="linkedin-link"
+                        id="linkedin-link"
+                        value={linkedinLink}
+                        onChange={(e) => setLinkedinLink(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="getform-link"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        GetForm.IO Form Link For Contact Page
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="eg: https://getform.io/f/04aee7d6-d0ec-4263-989a-cd8c48cd940e"
+                        name="getform-link"
+                        id="getform-link"
+                        value={getFormLink}
+                        onChange={(e) => setGetFormLink(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                      <p className={'text-xs text-gray-500'}>
+                        Go to{' '}
+                        <span>
+                          <a
+                            href="https://getform.io/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="underline text-blue-500"
+                          >
+                            https://getform.io/
+                          </a>
+                        </span>{' '}
+                        and create a form. Copy the link and paste it here.
+                      </p>
+                    </div>
                   </div>
 
                   <div className="col-span-6">
@@ -491,78 +550,9 @@ export default function DetailInput() {
                       />
                     </div>
                   </div>
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="getform-link"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      GetForm.IO Form Link For Contact Page
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="eg: https://getform.io/f/04aee7d6-d0ec-4263-989a-cd8c48cd940e"
-                      name="getform-link"
-                      id="getform-link"
-                      value={getFormLink}
-                      onChange={(e) => setGetFormLink(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                    <p className={'text-xs text-gray-500'}>
-                      Go to{' '}
-                      <span>
-                        <a
-                          href="https://getform.io/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="underline text-blue-500"
-                        >
-                          https://getform.io/
-                        </a>
-                      </span>{' '}
-                      and create a form. Copy the link and paste it here.
-                    </p>
-                  </div>
-                  {/*  */}
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="note-in-contact-page"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Note Text in Contact Page
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="eg: Looking for COOP Position for Spring/Summer 2022"
-                      name="note-in-contact-page"
-                      id="note-in-contact-page"
-                      value={contactNote}
-                      onChange={(e) => setContactNote(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  {/*  */}
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="description-in-contact-page"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Description Text in Contact Page
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="eg: I am available for freelance or full-time positions. Contact me and let's talk."
-                      name="description-in-contact-page"
-                      id="description-in-contact-page"
-                      value={contactDescription}
-                      onChange={(e) => setContactDescription(e.target.value)}
-                      autoComplete="given-name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+
                   {allIcons && (
-                    <div className="col-span-6">
+                    <div className="">
                       <label
                         htmlFor="skills"
                         className="block text-sm font-medium text-gray-700"
@@ -586,7 +576,7 @@ export default function DetailInput() {
                       </div>
                     </div>
                   )}
-                  <div className="col-span-6">
+                  <div className="">
                     <label
                       htmlFor="skills"
                       className="block text-sm font-medium text-gray-700"
@@ -709,6 +699,45 @@ export default function DetailInput() {
                         </div>
                       </div>
                     )}
+                  </div>
+                  {/* contact section details */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="">
+                      <label
+                        htmlFor="note-in-contact-page"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Note Text in Contact Page
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="eg: Looking for COOP Position for Spring/Summer 2022"
+                        name="note-in-contact-page"
+                        id="note-in-contact-page"
+                        value={contactNote}
+                        onChange={(e) => setContactNote(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="description-in-contact-page"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Description Text in Contact Page
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="eg: I am available for freelance or full-time positions. Contact me and let's talk."
+                        name="description-in-contact-page"
+                        id="description-in-contact-page"
+                        value={contactDescription}
+                        onChange={(e) => setContactDescription(e.target.value)}
+                        autoComplete="given-name"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
