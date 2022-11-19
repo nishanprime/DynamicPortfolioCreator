@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CurrentUser } from '../../pages/user/[username]';
+import { CurrentUser } from '../../pages/user/[uid]';
 import SkillCard from './SkillCard';
 
 const Skills = () => {

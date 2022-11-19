@@ -9,11 +9,11 @@ const GetStarted = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
-  const { user, loginUser, loading, error } = useContext(UserContext);
+  const { user, loginUser, loading, error, registerUser } =
+    useContext(UserContext);
 
   useEffect(() => {
     if (user) {
-      console.log(router);
       router.push('/details');
     }
   }, [user]);
@@ -22,7 +22,7 @@ const GetStarted = () => {
     if (accountStatus) {
       loginUser(email, password);
     } else {
-      console.log('register');
+      registerUser(username, email, password);
     }
   };
   return (
@@ -112,14 +112,14 @@ const GetStarted = () => {
 
               {accountStatus && (
                 <div className="flex items-center justify-between">
-                  <div className="text-sm">
+                  {/* <div className="text-sm">
                     <a
                       href="#"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot your password?
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
 

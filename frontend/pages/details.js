@@ -4,9 +4,8 @@ import { getAllIcons } from '../actions/getAllIcons';
 import UserContext from '../userContext';
 import Multiselect from 'multiselect-react-dropdown';
 import DynamicForm from '../Components/DynamicForm';
-import Image from 'next/image';
 import axios from 'axios';
-
+import Image from 'next/image';
 export default function DetailInput() {
   const { user, logout, allIcons, updateUser, loading, error } =
     useContext(UserContext);
@@ -28,7 +27,7 @@ export default function DetailInput() {
   const [username, setUsername] = useState('');
   const [mainURL, setMainURL] = useState('');
   const [email, setEmail] = useState('');
-
+  const [fileUploading, setFileUploading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -56,7 +55,6 @@ export default function DetailInput() {
       setProjectDetails(user.personalProjects);
     }
   }, [user]);
-  console.log(user);
 
   const profilePictureUploadHandler = async (e) => {
     e.preventDefault();
@@ -77,13 +75,17 @@ export default function DetailInput() {
             Authorization: `Bearer ${user.token}`,
           },
         };
+        setFileUploading(true);
         const { data } = await axios.post(
           `${process.env.BACKEND_URI}/users/upload/profile`,
           formData,
           config
         );
-
+        console.log(data);
+        console.log('Printing data from profile upload: ', data);
+        console.log(data);
         setProfilePicture(data);
+        setFileUploading(false);
 
         return;
       } else if (targetFile === 'resume-upload') {
@@ -244,20 +246,29 @@ export default function DetailInput() {
                           />
                         </svg>
                         <div class="flex text-sm text-gray-600 justify-center">
-                          <label
-                            for="profile-upload"
-                            class="cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                          >
-                            <span>Upload a picture</span>
-                            <input
-                              id="profile-upload"
-                              name="profile-upload"
-                              accept="image/*"
-                              onChange={profilePictureUploadHandler}
-                              type="file"
-                              class="sr-only"
-                            />
-                          </label>
+                          {fileUploading ? (
+                            <label
+                              for="profile-upload"
+                              class="cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Uploading...</span>
+                            </label>
+                          ) : (
+                            <label
+                              for="profile-upload"
+                              class="cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a picture</span>
+                              <input
+                                id="profile-upload"
+                                name="profile-upload"
+                                accept="image/*"
+                                onChange={profilePictureUploadHandler}
+                                type="file"
+                                class="sr-only"
+                              />
+                            </label>
+                          )}
                         </div>
                         <p class="text-xs text-gray-500">
                           PNG, JPG, GIF up to 5MB
@@ -291,19 +302,35 @@ export default function DetailInput() {
                           />
                         </svg>
                         <div class="flex text-sm text-gray-600 justify-center">
-                          <label
-                            for="resume-upload"
-                            class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                          >
-                            <span>Upload a resume</span>
-                            <input
-                              id="resume-upload"
-                              name="resume-upload"
-                              type="file"
-                              onChange={profilePictureUploadHandler}
-                              class="sr-only"
-                            />
-                          </label>
+                          {fileUploading ? (
+                            <label
+                              for="resume-upload"
+                              class="relative cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Uploading...</span>
+                              <input
+                                id="resume-upload"
+                                name="resume-upload"
+                                type="file"
+                                onChange={profilePictureUploadHandler}
+                                class="sr-only"
+                              />
+                            </label>
+                          ) : (
+                            <label
+                              for="resume-upload"
+                              class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a resume</span>
+                              <input
+                                id="resume-upload"
+                                name="resume-upload"
+                                type="file"
+                                onChange={profilePictureUploadHandler}
+                                class="sr-only"
+                              />
+                            </label>
+                          )}
                         </div>
                         <p class="text-xs text-gray-500">
                           PDF, DOCX, TXT up to 5MB
@@ -559,7 +586,6 @@ export default function DetailInput() {
                     {user && user.personalProjects && (
                       <DynamicForm
                         retrieveProjects={(e) => {
-                          console.log(e);
                           //set project details
                           setProjectDetails(e);
                         }}

@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
-const index = ({ queryStr }) => {
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+const Index = () => {
+  const router = useRouter();
+  const { notFound: queryStr } = router.query;
+  useEffect(() => {}, [router]);
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <h1 className="uppercase">Welcome</h1>
@@ -10,7 +15,7 @@ const index = ({ queryStr }) => {
           <FaArrowAltCircleRight size={30} />
         </Link>
       </button>
-      {queryStr !== null && (
+      {queryStr && (
         <h3 className="mt-10 text-red-400">
           Invalid Portfolio Link: Try Again
         </h3>
@@ -19,16 +24,4 @@ const index = ({ queryStr }) => {
   );
 };
 
-//get server side props
-export const getServerSideProps = async (context) => {
-  //get the username from the url
-  // check url and find any query params
-  const queryStr = context.query.notFound || null;
-  return {
-    props: {
-      queryStr,
-    },
-  };
-};
-
-export default index;
+export default Index;

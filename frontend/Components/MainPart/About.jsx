@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import Link from 'next/link';
-import { CurrentUser } from '../../pages/user/[username]';
+import { CurrentUser } from '../../pages/user/[uid]';
 import Image from 'next/image';
-
 const About = () => {
   const data = useContext(CurrentUser);
   const { about, username } = data;

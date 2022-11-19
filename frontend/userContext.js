@@ -46,6 +46,26 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  const registerUser = async (username, email, password) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.BACKEND_URI}/users/register`,
+        {
+          username,
+          email,
+          password,
+        }
+      );
+      //login the user after registering
+      loginUser(email, password);
+    } catch (error) {
+      let errorMessage = error.response.data.message || error.message;
+      setLoading(false);
+      setError(errorMessage);
+    }
+  };
+
   // update user info
   const updateUser = async (information) => {
     setLoading(true);
@@ -98,6 +118,21 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  const getUserInfo = async (username) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/users/getuserinfo/${username}`
+      );
+      //
+      setLoading(false);
+      setError(null);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
+  };
   const value = {
     user,
     loginUser,
@@ -106,6 +141,8 @@ export const UserContextProvider = ({ children }) => {
     error,
     allIcons,
     updateUser,
+    registerUser,
+    getUserInfo,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

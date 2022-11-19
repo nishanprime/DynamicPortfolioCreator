@@ -4,7 +4,7 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { BsFillPersonLinesFill } from 'react-icons/bs';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { HiOutlineChevronDoubleUp } from 'react-icons/hi';
-import { CurrentUser } from '../../pages/user/[username]';
+import { CurrentUser } from '../../pages/user/[uid]';
 
 const Contact = () => {
   const data = useContext(CurrentUser);

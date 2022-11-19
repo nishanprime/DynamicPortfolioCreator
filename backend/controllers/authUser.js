@@ -40,19 +40,16 @@ const authUser = expressAsyncHandler(async (req, res) => {
 
 // dummy registration of User
 const registerUser = expressAsyncHandler(async (req, res) => {
-  const firstName = 'Nishan';
-  const lastName = 'Thapa';
-  const email = `thapanishan${Math.floor(Math.random() * 1000)}@gmail.com`;
-  const password = 'Nishan@1234';
-  const username = `nishanprime${Math.floor(Math.random() * 1000)}`;
+  const { username, email, password } = req.body;
 
-  const dummyData = { firstName, lastName, email, password, username };
-  const userExists = await User.findOne({ email });
+  const data = { email, password, username };
+  const userExists =
+    (await User.findOne({ email })) || (await User.findOne({ username }));
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error('User with this Email or Username already exists');
   }
-  const user = await User.create(dummyData);
+  const user = await User.create(data);
   if (user) {
     res.status(201).json({
       _id: user._id,

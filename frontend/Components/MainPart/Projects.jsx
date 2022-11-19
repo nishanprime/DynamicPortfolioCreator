@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ProjectItem from './ProjectItem';
 import PeronalProject from './PeronalProject';
-import { CurrentUser } from '../../pages/user/[username]';
+import { CurrentUser } from '../../pages/user/[uid]';
 const Projects = () => {
   const data = useContext(CurrentUser);
   const { personalProjects } = data;

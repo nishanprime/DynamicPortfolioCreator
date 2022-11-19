@@ -3,7 +3,6 @@ import { FaPlus, FaMinus, FaCheck } from 'react-icons/fa';
 import UserContext from '../userContext';
 
 const DynamicForm = ({ retrieveProjects, projects }) => {
-  console.log(projects);
   let tempProjects = [...projects];
   //dynamic form fields
   const [projectDetails, setProjectDetails] = useState(tempProjects);

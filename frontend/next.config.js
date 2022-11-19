@@ -6,10 +6,17 @@ const nextConfig = {
 
 module.exports = {
   env: {
-    BACKEND_URI: 'http://localhost:8000/api',
+    BACKEND_URI: 'https://backend-dynamic-portfolio.herokuapp.com/api',
   },
   images: {
-    domains: ['res.cloudinary.com', 'dazzlesl.info', 'localhost'],
+    unoptimized: true,
+    domains: [
+      'res.cloudinary.com',
+      'dazzlesl.info',
+      'localhost',
+      'cdn-icons-png.flaticon.com',
+    ],
   },
+
   nextConfig,
 };

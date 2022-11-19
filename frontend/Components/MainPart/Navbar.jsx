@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from 'react-icons/ai';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { BsFillPersonLinesFill } from 'react-icons/bs';
-import { CurrentUser } from '../../pages/user/[username]';
+import { CurrentUser } from '../../pages/user/[uid]';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
