@@ -452,7 +452,10 @@ export default function Home() {
                         //   skillName={skillName}
                         //   key={skill.imgLink}
                         // />
-                        <div className="p-6 shadow-xl rounded-xl hover:scale-105 ease-in duration-300">
+                        <div
+                          key={skill.imgLink}
+                          className="p-6 shadow-xl rounded-xl hover:scale-105 ease-in duration-300"
+                        >
                           <div className="grid grid-cols-2 gap-4 justify-center items-center">
                             <div className="m-auto">
                               <Image
@@ -500,7 +503,10 @@ export default function Home() {
                     //   link={project['project-link']}
                     //   description={project['project-description']}
                     // />
-                    <div className="md:flex items-center justify-between w-70 mb-4 border-4 p-10 shadow-xl hover:scale-90 ease-in duration-100">
+                    <div
+                      key={index}
+                      className="md:flex items-center justify-between w-70 mb-4 border-4 p-10 shadow-xl hover:scale-90 ease-in duration-100"
+                    >
                       <div className="p-4 shadow-lg shadow-gray-500 border-2">
                         <h2 className="mb-1">{project['project-title']}</h2>
                         <p>{project['project-description']}</p>
