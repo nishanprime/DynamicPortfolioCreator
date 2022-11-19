@@ -584,15 +584,15 @@ export default function DetailInput() {
                       Personal Projects Section
                     </label>
                     {user && user.personalProjects && (
-                      <div>
+                      <div className="divide-y divide-blue-200">
                         {projectDetails.map((project, index) => {
                           return (
                             <div
-                              className="flex gap-6 justify-between mt-3 mb-5"
+                              className="flex gap-6 justify-between mt-3 mb-5 "
                               key={index}
                             >
-                              <>
-                                <div className="col-span-2 flex-none">
+                              <div className="grid w-full md:grid-cols-9 gap-4 ">
+                                <div className="sm:col-span-9 md:col-span-3">
                                   <label
                                     htmlFor="projectName"
                                     className="block text-sm font-medium text-gray-700"
@@ -612,7 +612,7 @@ export default function DetailInput() {
                                   />
                                 </div>
 
-                                <div className="col-span-2 flex-none">
+                                <div className="sm:col-span-9 md:col-span-3">
                                   <label
                                     htmlFor="projectDescription"
                                     className="block text-sm font-medium text-gray-700"
@@ -631,7 +631,7 @@ export default function DetailInput() {
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                   />
                                 </div>
-                                <div className="col-span-3 flex-1">
+                                <div className="sm:col-span-9 md:col-span-3">
                                   <label
                                     htmlFor="project-description"
                                     className="block text-sm font-medium text-gray-700"
@@ -650,11 +650,11 @@ export default function DetailInput() {
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                   />
                                 </div>
-                              </>
+                              </div>
                             </div>
                           );
                         })}
-                        <div className="flex gap-3 mt-5">
+                        <div className="flex gap-3 mt-5 pt-5">
                           <button
                             className="p-3"
                             onClick={() => {
