@@ -701,7 +701,7 @@ export default function DetailInput() {
                     )}
                   </div>
                   {/* contact section details */}
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="">
                       <label
                         htmlFor="note-in-contact-page"
