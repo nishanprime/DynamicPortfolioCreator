@@ -22,7 +22,7 @@ const GetStarted = () => {
     if (accountStatus) {
       loginUser(email, password);
     } else {
-      registerUser(username, email, password);
+      registerUser(username.trim().toLowerCase(), email, password);
     }
   };
   return (
