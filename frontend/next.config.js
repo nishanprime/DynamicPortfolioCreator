@@ -6,7 +6,7 @@ const nextConfig = {
 
 module.exports = {
   env: {
-    BACKEND_URI: 'https://backend-dynamic-portfolio.herokuapp.com/api',
+    BACKEND_URI: 'http://localhost:8000/api',
   },
   images: {
     unoptimized: true,
