@@ -5,5 +5,5 @@ RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm install next@latest --legacy-peer-deps
 RUN npm upgrade react@latest react-dom@latest --legacy-peer-deps
-# RUN npm run build
-CMD ["npm", "run","dev"] 
+RUN npm run build
+CMD ["npm", "start"] 
