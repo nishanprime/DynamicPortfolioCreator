@@ -331,7 +331,7 @@ export default function Home() {
                       <a
                         href={resume}
                         target="_blank"
-                        ref="noreferrer"
+                        rel="noreferrer"
                         download
                       >
                         <div
