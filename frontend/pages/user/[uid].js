@@ -184,7 +184,7 @@ export default function Home() {
                     <Link href={`/user/${username}#projects`}>Projects</Link>
                   </li>
                   <li className="hidden md:block ml-10 text-sm uppercase hover:border-b">
-                    <a href={resume} target="_blank" rel="noreferrer">
+                    <a href={resume} target="_blank" rel="noreferrer" download>
                       Resume
                     </a>
                   </li>
@@ -279,6 +279,7 @@ export default function Home() {
                       href={resume}
                       target={'_blank'}
                       rel="noreferrer"
+                      download
                     >
                       <li
                         onClick={() => setNav(false)}
@@ -327,14 +328,14 @@ export default function Home() {
                           <AiOutlineMail />
                         </div>
                       </Link>
-                      <Link href="/resume">
+                      <a href={resume} target="_blank" download>
                         <div
                           onClick={() => setNav(!nav)}
                           className="rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer hover:scale-105 ease-in duration-300"
                         >
                           <BsFillPersonLinesFill />
                         </div>
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -375,7 +376,7 @@ export default function Home() {
                     </div>
                   </Link>
                   <div className="hidden md:block">
-                    <a href={resume} target="_blank" rel="noreferrer">
+                    <a href={resume} target="_blank" rel="noreferrer" download>
                       <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
                         <BsFillPersonLinesFill />
                       </div>
@@ -383,9 +384,10 @@ export default function Home() {
                   </div>
                   <div className="md:hidden">
                     <a
-                      href="assets/nishan-thapa-resume.pdf"
+                      href={resume}
                       target={'_blank'}
                       rel="noreferrer"
+                      download
                     >
                       <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
                         <BsFillPersonLinesFill />
@@ -439,7 +441,7 @@ export default function Home() {
               {skills.length > 0 ? (
                 <>
                   <h2 className="py-4">What I Can Do</h2>
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
                     {skills.map((skill) => {
                       let skillName = skill.name.toUpperCase();
                       //truncate skill name if it is too long
@@ -447,16 +449,11 @@ export default function Home() {
                         skillName = skillName.slice(0, 9) + '...';
                       }
                       return (
-                        // <SkillCard
-                        //   imgLink={skill.imgLink}
-                        //   skillName={skillName}
-                        //   key={skill.imgLink}
-                        // />
                         <div
                           key={skill.imgLink}
                           className="p-6 shadow-xl rounded-xl hover:scale-105 ease-in duration-300"
                         >
-                          <div className="grid grid-cols-2 gap-4 justify-center items-center">
+                          <div className="grid grid-cols-1 gap-4 justify-center items-center">
                             <div className="m-auto">
                               <Image
                                 src={skill.imgLink}
@@ -465,9 +462,8 @@ export default function Home() {
                                 alt="/"
                               />
                             </div>
-                            {/* don't flow out of the box */}
 
-                            <div className="flex flex-col items-center justify-center">
+                            <div className="text-center">
                               <p className="text-lg font-bold">{skillName}</p>
                             </div>
                           </div>
@@ -579,7 +575,12 @@ export default function Home() {
                             <AiOutlineMail />
                           </div>
                         </Link>
-                        <a href={resume} target="_blank" rel="noreferrer">
+                        <a
+                          href={resume}
+                          target="_blank"
+                          rel="noreferrer"
+                          download
+                        >
                           <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
                             <BsFillPersonLinesFill />
                           </div>

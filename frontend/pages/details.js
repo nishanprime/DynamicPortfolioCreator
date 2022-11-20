@@ -380,6 +380,7 @@ export default function DetailInput() {
                             target="_blank"
                             className="text-blue-500 cursor-pointer underline"
                             rel="noreferrer"
+                            download
                           >
                             Current Resume (Click here)
                           </a>
