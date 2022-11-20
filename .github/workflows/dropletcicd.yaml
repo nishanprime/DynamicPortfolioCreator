@@ -15,5 +15,6 @@ jobs:
           node-version: 18.7.0
       - name: Run Docker Compose
         run: |
-          echo ${{secrets.DROPLET_PW}} | sudo -S docker-compose down
-          echo ${{secrets.DROPLET_PW}} | sudo -S docker-compose up --build -d
+          sudo -S docker-compose down
+          sudo -S docker-compose up --build -d
+          
