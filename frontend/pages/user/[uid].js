@@ -348,6 +348,14 @@ export default function Home() {
           <div id="home" className="w-full h-screen text-center">
             <div className="max-w-[1240px] w-full h-full mx-auto p-2 flex justify-around items-center">
               <div>
+                <div className="flex justify-center lg:hidden mt-20 shadow-xl shadow-gray-500 border-8 rounded-xl mb-10">
+                  <img
+                    src={profilePicture}
+                    alt={`${firstName} profile picture`}
+                    width={200}
+                    height={200}
+                  />
+                </div>
                 <p className="uppercase text-sm tracking-widest text-gray-600">
                   {startDescription}
                 </p>
@@ -411,13 +419,13 @@ export default function Home() {
             <div className="max-w-[1240px] m-auto md:grid grid-cols-3 gap-8">
               <div className="col-span-2">
                 <p className="sm:text-center mb-5 md:uppercase text-xl tracking-widest text-[#5651e5]"></p>
-                <h2 className="sm:text-center mb-5 md:py-4">Who I am</h2>
+                <h2 className="text-center mb-5 md:py-4">Who I am</h2>
 
-                <p className="sm:text-center mb-5 md:py-2 text-gray-600">
+                <p className="text-center mb-5 md:py-2 text-gray-600">
                   {about}
                 </p>
                 <Link href={`/user/${username}/#projects`}>
-                  <p className="sm:text-center mb-5 md:py-2 text-gray-600 underline cursor-pointer">
+                  <p className="text-center mb-5 md:py-2 text-gray-600 underline cursor-pointer">
                     Check out some of my latest projects.
                   </p>
                 </Link>
