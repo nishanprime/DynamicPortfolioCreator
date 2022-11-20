@@ -1,3 +1,4 @@
+# i changed somthing in the code and it works now
 version: "3"
 services:
   nginx:
