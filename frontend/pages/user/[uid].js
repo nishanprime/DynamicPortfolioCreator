@@ -328,7 +328,12 @@ export default function Home() {
                           <AiOutlineMail />
                         </div>
                       </Link>
-                      <a href={resume} target="_blank" download>
+                      <a
+                        href={resume}
+                        target="_blank"
+                        ref="noreferrer"
+                        download
+                      >
                         <div
                           onClick={() => setNav(!nav)}
                           className="rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer hover:scale-105 ease-in duration-300"
