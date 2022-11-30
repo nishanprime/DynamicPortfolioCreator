@@ -29,12 +29,13 @@ const GetStarted = () => {
     <div className="flex flex-col min-h-full items-center justify-center h-screen py-12 px-4 sm:px-6 lg:px-8">
       {!error ? (
         loading ? (
+    <>
       <button type="button" class="bg-indigo-500 ..." disabled>
         <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
-          <!-- ... -->
         </svg>
       <h2>Signing in...</h2>
       </button>
+    </>
         ) : (
           <div className="w-full max-w-md space-y-8">
             <div>
