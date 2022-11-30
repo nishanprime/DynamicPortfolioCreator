@@ -10,11 +10,11 @@ const Index = () => {
     <div className="h-screen flex flex-col justify-center items-center">
       <h1 className="uppercase">Welcome</h1>
       <h2 className="uppercase mt-10 text-center">Create Your Portfolio</h2>
+      <Link href={'get-started'}>
       <button className="mt-10 px-20 py-5 hover:scale-110 ease-in-out duration-100">
-        <Link href={'get-started'}>
           <FaArrowAltCircleRight size={30} />
-        </Link>
       </button>
+      </Link>
       {queryStr && (
         <h3 className="mt-10 text-red-400">
           Invalid Portfolio Link: Try Again
