@@ -1,20 +1,20 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import UserContext from '../userContext';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../userContext";
 
 const GetStarted = () => {
   const [accountStatus, setAccStatus] = useState(true);
-  const [email, setEMail] = useState('');
-  const [username, setUserName] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEMail] = useState("");
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
   const { user, loginUser, loading, error, registerUser } =
     useContext(UserContext);
 
   useEffect(() => {
     if (user) {
-      router.push('/details');
+      router.push("/details");
     }
   }, [user]);
   const onFormSubmit = (e) => {
@@ -29,13 +29,14 @@ const GetStarted = () => {
     <div className="flex flex-col min-h-full items-center justify-center h-screen py-12 px-4 sm:px-6 lg:px-8">
       {!error ? (
         loading ? (
-    <>
-      <button type="button" class="bg-indigo-500 ..." disabled>
-        <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
-        </svg>
-      <h2>Signing in...</h2>
-      </button>
-    </>
+          <>
+            <button type="button" className="bg-indigo-500 p-4 " disabled>
+              <div className="flex loader-container">
+                <div className="loader h-4 w-4"></div>
+                <div className="loader-text ml-2">Signing in..</div>
+              </div>
+            </button>
+          </>
         ) : (
           <div className="w-full max-w-md space-y-8">
             <div>
@@ -86,8 +87,8 @@ const GetStarted = () => {
                     required
                     className={
                       accountStatus
-                        ? 'relative block w-full rounded-none rounded-t-md appearance-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                        : 'relative block w-full appearance-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                        ? "relative block w-full rounded-none rounded-t-md appearance-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        : "relative block w-full appearance-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     }
                     placeholder="Email address"
                     value={email}
