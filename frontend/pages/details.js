@@ -470,7 +470,7 @@ export default function DetailInput() {
                       <input
                         type="text"
                         name="github-link"
-                        placeholder="eg: https://github.com/nishanprime"
+                        placeholder="eg: https://github.com/RauniyarSriyans"
                         id="github-link"
                         value={githubLink}
                         onChange={(e) => setGithubLink(e.target.value)}
@@ -487,7 +487,7 @@ export default function DetailInput() {
                       </label>
                       <input
                         type="text"
-                        placeholder="eg: https://www.linkedin.com/in/nishanprime/"
+                        placeholder="eg: https://www.linkedin.com/in/rauniyarsriyans/"
                         name="linkedin-link"
                         id="linkedin-link"
                         value={linkedinLink}
