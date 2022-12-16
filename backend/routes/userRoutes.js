@@ -21,7 +21,7 @@ router
   .post(protect, upload.single('upload'), (req, res, send) => {
     const key = req.file.key;
     const fullImageUrl =
-      req.protocol + '://' + req.get('host') + '/api/users/files/' + key;
+      'https://dynamic-portfolio-creator.herokuapp.com/api/users/files/' + key;
     res.send(fullImageUrl);
   });
 

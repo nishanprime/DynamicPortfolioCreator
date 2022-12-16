@@ -10,15 +10,7 @@ import { HiOutlineChevronDoubleUp } from 'react-icons/hi';
 
 import Head from 'next/head';
 import { createContext, useEffect, useState } from 'react';
-
-import About from '../../Components/MainPart/About';
-import Contact from '../../Components/MainPart/Contact';
-import Main from '../../Components/MainPart/Main';
-import Projects from '../../Components/MainPart/Projects';
-import Skills from '../../Components/MainPart/Skills';
-import Navbar from '../../Components/MainPart/Navbar';
 import { useRouter } from 'next/router';
-import SkillCard from '../../Components/MainPart/SkillCard';
 const CurrentUser = createContext(null);
 export default function Home() {
   const router = useRouter();
