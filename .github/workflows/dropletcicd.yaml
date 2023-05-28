@@ -1,20 +1,29 @@
 name: Droplet Pipeline
+
 on:
   push:
     branches: [depl]
+
 jobs:
   push_to_droplet:
     runs-on: self-hosted
     env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
           ref: dev
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18.0.0
-      # - name: Run Docker Compose
-      #   run: echo $DOCKER_PASSWORD | sudo -S docker-compose up --build -d
+
+      - name: Login to Docker Registry
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Run Docker Compose
+        run: docker-compose up --build -d
