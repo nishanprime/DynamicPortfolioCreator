@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import IconModel from './models/iconModel.js';
+import dotenv from 'dotenv';
+dotenv.config()
 const allArr = [
   {
     name: 'adonisjs',
@@ -3350,8 +3352,7 @@ const result = allArr.map((item) => {
     imgLink: `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${item.name}/${item.name}-${item.versions.svg[0]}.svg`,
   };
 });
-let MONGO_URI =
-  'mongodb+srv://nishanprime:nishanprime@portfolioproject.v2il2.mongodb.net/?retryWrites=true&w=majority';
+let MONGO_URI =process.env.MONGO_URI
 const connectTODB = async () => {
   console.log(MONGO_URI);
   try {

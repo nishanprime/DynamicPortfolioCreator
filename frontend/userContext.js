@@ -9,6 +9,7 @@ export const UserContextProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [allIcons, setAllIcons] = useState([]);
   const setDefaultValues = () => {
+    console.log("setting")
     setUser(JSON.parse(localStorage.getItem('userInfo')));
     setAllIcons(JSON.parse(localStorage.getItem('allIcons')));
     setLoading(false);
@@ -21,7 +22,7 @@ export const UserContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.BACKEND_URI}/users/login`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/login`,
         {
           email,
           password,
@@ -50,7 +51,7 @@ export const UserContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.BACKEND_URI}/users/register`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/register`,
         {
           username,
           email,
@@ -71,7 +72,7 @@ export const UserContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `${process.env.BACKEND_URI}/users/update`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/update`,
         information,
         {
           headers: {
@@ -101,7 +102,7 @@ export const UserContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.BACKEND_URI}/users/getallinfo`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/getallinfo`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -122,7 +123,7 @@ export const UserContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:8000/api/users/getuserinfo/${username}`
+        `${NEXT_PUBLIC_BACKEND_URI}/api/users/getuserinfo/${username}`
       );
       //
       setLoading(false);

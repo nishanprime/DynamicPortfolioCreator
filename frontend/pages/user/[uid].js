@@ -63,7 +63,7 @@ export default function Home() {
     if (uid) {
       const getALlInfo = async () => {
         const { data } = await axios.get(
-          `${process.env.BACKEND_URI}/users/getuserinfo/${uid}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/getuserinfo/${uid}`
         );
         console.log(data);
         const {

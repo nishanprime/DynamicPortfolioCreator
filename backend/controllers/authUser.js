@@ -68,6 +68,8 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 const updateUser = expressAsyncHandler(async (req, res) => {
   //update user
   const user = await User.findById(req.user._id);
+  console.log(user.contact)
+  console.log(req.body.contact)
   if (user) {
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
@@ -151,12 +153,11 @@ const s3 = new aws.S3({
   accessKeyId: process.env.SPACE_ACCESS_KEY_ID,
   secretAccessKey: process.env.SPACE_SECRET_KEY,
 });
-
 //upload helper
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'portfoliocreator',
+    bucket: 'dynamicportfolio',
 
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -183,7 +184,7 @@ const upload = multer({
 export const getFileStream = (fileKey) => {
   const downloadParams = {
     Key: fileKey,
-    Bucket: 'portfoliocreator',
+    Bucket: 'dynamicportfolio',
   };
   return s3.getObject(downloadParams).createReadStream();
 };

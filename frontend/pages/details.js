@@ -31,6 +31,7 @@ export default function DetailInput() {
   const [email, setEmail] = useState('');
   const [fileUploading, setFileUploading] = useState(false);
   const [pictureUploading, setPictureUploading] = useState(false);
+  const [getFormIoLink, setGetFormIoLink] = useState('');
   const router = useRouter();
 
   const handleChange = (e, index) => {
@@ -88,7 +89,7 @@ export default function DetailInput() {
           },
         };
         const { data } = await axios.post(
-          `${process.env.BACKEND_URI}/users/upload/profile`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/upload/profile`,
           formData,
           config
         );
@@ -110,7 +111,7 @@ export default function DetailInput() {
           },
         };
         const { data } = await axios.post(
-          `${process.env.BACKEND_URI}/users/upload/resume`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/upload/resume`,
           formData,
           config
         );
@@ -148,6 +149,7 @@ export default function DetailInput() {
       },
       resume,
       profilePicture,
+      getFormIoLink
     });
   };
 
@@ -171,7 +173,7 @@ export default function DetailInput() {
 
           <form onSubmit={formSubmitHandler} encType="multipart/form-data">
             <div className="overflow-hidden shadow sm:rounded-md">
-              <div className="px-4 py-5 sm:p-6 justify-around grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full justify-center px-4 ">
                 <div className="sm:text-center">
                   <label
                     htmlFor="first-name"
@@ -259,13 +261,13 @@ export default function DetailInput() {
                       />
                     </div>
                     <div className="">
-                      <label class="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-700">
                         Profile Picture
                       </label>
-                      <div class="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                        <div class="space-y-1 text-center">
+                      <div className="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                        <div className="space-y-1 text-center">
                           <svg
-                            class="mx-auto h-12 w-12 text-gray-400"
+                            className="mx-auto h-12 w-12 text-gray-400"
                             stroke="currentColor"
                             fill="none"
                             viewBox="0 0 48 48"
@@ -278,18 +280,18 @@ export default function DetailInput() {
                               stroke-linejoin="round"
                             />
                           </svg>
-                          <div class="flex text-sm text-gray-600 justify-center">
+                          <div className="flex text-sm text-gray-600 justify-center">
                             {pictureUploading ? (
                               <label
                                 for="profile-upload"
-                                class="cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                                className="cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                               >
                                 <span>Uploading...</span>
                               </label>
                             ) : (
                               <label
                                 for="profile-upload"
-                                class="cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                                className="cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                               >
                                 <span>Upload a picture</span>
                                 <input
@@ -298,12 +300,12 @@ export default function DetailInput() {
                                   accept="image/*"
                                   onChange={profilePictureUploadHandler}
                                   type="file"
-                                  class="sr-only"
+                                  className="sr-only"
                                 />
                               </label>
                             )}
                           </div>
-                          <p class="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500">
                             PNG, JPG, GIF up to 5MB
                           </p>
                         </div>
@@ -314,13 +316,13 @@ export default function DetailInput() {
                       </div>
                     </div>
                     <div className="">
-                      <label class="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-700">
                         Resume
                       </label>
-                      <div class="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                        <div class="space-y-1 text-center">
+                      <div className="mt-1 flex gap-10 justify-around items-end rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                        <div className="space-y-1 text-center">
                           <svg
-                            class="mx-auto h-12 w-12 text-gray-400"
+                            className="mx-auto h-12 w-12 text-gray-400"
                             stroke="currentColor"
                             fill="none"
                             viewBox="0 0 48 48"
@@ -333,11 +335,11 @@ export default function DetailInput() {
                               stroke-linejoin="round"
                             />
                           </svg>
-                          <div class="flex text-sm text-gray-600 justify-center">
+                          <div className="flex text-sm text-gray-600 justify-center">
                             {fileUploading ? (
                               <label
                                 for="resume-upload"
-                                class="relative cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                                className="relative cursor-pointer rounded-md bg-white font-medium text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                               >
                                 <span>Uploading...</span>
                                 <input
@@ -345,13 +347,13 @@ export default function DetailInput() {
                                   name="resume-upload"
                                   type="file"
                                   onChange={profilePictureUploadHandler}
-                                  class="sr-only"
+                                  className="sr-only"
                                 />
                               </label>
                             ) : (
                               <label
                                 for="resume-upload"
-                                class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                                className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                               >
                                 <span>Upload a resume</span>
                                 <input
@@ -359,15 +361,15 @@ export default function DetailInput() {
                                   name="resume-upload"
                                   type="file"
                                   onChange={profilePictureUploadHandler}
-                                  class="sr-only"
+                                  className="sr-only"
                                 />
                               </label>
                             )}
                           </div>
-                          <p class="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500">
                             PDF, DOCX, TXT up to 5MB
                           </p>
-                          <p class="text-xs text-gray-500">Selected File</p>
+                          <p className="text-xs text-gray-500">Selected File</p>
                         </div>
                         <div>
                           <Image
@@ -525,7 +527,7 @@ export default function DetailInput() {
                             https://getform.io/
                           </a>
                         </span>{' '}
-                        and create a form. Copy the link and paste it here.
+                        and create a form. Generate endpoint and paste it here
                       </p>
                     </div>
                   </div>
@@ -739,6 +741,7 @@ export default function DetailInput() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
+                    
                   </div>
                 </div>
               </div>

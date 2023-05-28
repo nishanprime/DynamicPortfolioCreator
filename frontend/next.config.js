@@ -5,10 +5,7 @@ const nextConfig = {
 };
 
 module.exports = {
-  env: {
-    // BACKEND_URI: 'http://localhost:8000/api',
-    BACKEND_URI: 'https://dynamic-portfolio-creator.herokuapp.com/api',
-  },
+ 
   images: {
     unoptimized: true,
     domains: [
