@@ -1,4 +1,3 @@
-# i changed somthing in the code and it works now
 version: "3"
 services:
   nginx:
@@ -7,6 +6,7 @@ services:
       context: ./nginx
     ports:
       - "3000:80"
+      - "8000:90"
   frontend:
     build:
       context: ./frontend
