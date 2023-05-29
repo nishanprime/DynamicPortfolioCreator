@@ -1,10 +1,6 @@
-# ignore all env inside of frontend and backend
-# ignore all env inside of frontend and backend
-.env
-.env.local
-.env.development.local
-.env.test.local
-frontend/.env
+# Frontend .env files
 frontend/.env.local
 frontend/.env.prod
+
+# Backend .env file
 backend/.env
