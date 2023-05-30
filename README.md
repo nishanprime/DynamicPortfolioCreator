@@ -25,7 +25,7 @@ To install and run the Dynamic Portfolio application locally, follow these steps
 
 3. Create .env.local in frontend and .env in backend
     Make sure .env in Backend have following prop:
-      ```
+      ```javascript
       PORT=8000
       MONGO_URI='<mongo_uri>'
       JWT_SECRET='<jwt_token>'
@@ -35,7 +35,7 @@ To install and run the Dynamic Portfolio application locally, follow these steps
       ```
       
     Make sure .env.local in Frontend have following prop:
-      ```
+      ```javascript
       NEXT_PUBLIC_BACKEND_URI=https://api.dynamicportfolio.io or <http://localhost:8000>
       ```
     * Use the localhost address in both cases if you are self-hosting the backend URI
