@@ -10,6 +10,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
+      - name: Copying env contents from backend.env to .env inside backend folder & frontend.env to .env inside frontend folder
+        run: |
+          cp /var/www/mywebsite/prod_env/backend.env backend/.env
+          cp /var/www/mywebsite/prod_env/frontend.env frontend/.env
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
