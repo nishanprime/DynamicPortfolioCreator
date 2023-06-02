@@ -1,0 +1,16 @@
+version: "3"
+services:
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+      - "3000:80"
+      - "8000:90"
+  frontend:
+    build:
+      context: ./frontend
+  backend:
+    build:
+      context: ./backend
+  
