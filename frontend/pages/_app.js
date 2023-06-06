@@ -1,10 +1,13 @@
+import { FeatureFlagContextProvider } from '../FeaftureFlags/featureFlag.context';
 import '../styles/globals.css';
 import { UserContextProvider } from '../userContext';
 function MyApp({ Component, pageProps }) {
   return (
-    <UserContextProvider>
+   <FeatureFlagContextProvider>
+     <UserContextProvider>
       <Component {...pageProps} />
     </UserContextProvider>
+   </FeatureFlagContextProvider>
   );
 }
 
