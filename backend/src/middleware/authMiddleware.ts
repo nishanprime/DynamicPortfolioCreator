@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/userModel';
 import { Request, Response, Next } from "express";
+import { sendError } from '../utils/sendError';
 const protect = asyncHandler(async (req:Request, res:Response, next:Next) => {
   let token;
   if (
@@ -16,14 +17,20 @@ const protect = asyncHandler(async (req:Request, res:Response, next:Next) => {
       req.user = user;
       next();
     } catch (error) {
-      console.error(error);
-      res.status(401);
-      throw new Error('Not authorized, token failed');
+      return sendError({
+        res,
+        status:401,
+        message:"Not Authorized | Token Failed",
+       
+      })
     }
   }
   if (!token) {
-    res.status(401);
-    throw new Error('Not authorized, no token');
+    return sendError({
+      res,
+      status:401,
+      message:"Not Authorized | Token Failed",
+    })
   }
 });
 export default protect;

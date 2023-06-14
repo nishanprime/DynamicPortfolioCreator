@@ -7,6 +7,7 @@ import User from "../models/userModel";
 import path from "path";
 import generateToken from "../utils/generateToken";
 import { IUser } from "../interfaces";
+import { sendError } from "../utils/sendError";
 const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user: IUser = await User.findOne({ email });
@@ -221,8 +222,11 @@ const getAllInfo = expressAsyncHandler(async (req: Request, res: Response) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(404);
-    throw new Error("User not found");
+    return sendError({
+      res:res,
+      status:400,
+      message:"User not found"
+    })
   }
 
 });
