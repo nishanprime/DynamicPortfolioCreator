@@ -1,8 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { UserInterface } from '../interfaces';
+import { IUser } from '../interfaces';
 
-const userSchema = new mongoose.Schema<UserInterface>({
+
+
+
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -94,21 +97,21 @@ const userSchema = new mongoose.Schema<UserInterface>({
   personalProjects: {
     type: [
       {
-        'project-title': String,
-        'project-link': String,
-        'project-description': String,
+        'projectTitle': String,
+        'projectLink': String,
+        'projectDescription': String,
       },
     ],
     default: [
       {
-        'project-title': 'MindSetts',
-        'project-link': 'https://github.com',
-        'project-description': 'Mind Setts',
+        'projectTitle': 'MindSetts',
+        'projectLink': 'https://github.com',
+        'projectDescription': 'Mind Setts',
       },
       {
-        'project-title': 'MindSetts',
-        'project-link': 'https://github.com',
-        'project-description': 'Mind Setts',
+        'projectTitle': 'MindSetts',
+        'projectLink': 'https://github.com',
+        'projectDescription': 'Mind Setts',
       },
     ],
   },
@@ -128,7 +131,7 @@ const userSchema = new mongoose.Schema<UserInterface>({
       required: true,
     },
   },
-  created: {
+  createdAt: {
     type: Date,
     default: Date.now,
   },
@@ -143,7 +146,8 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+   let isValid=await bcrypt.compare(enteredPassword, this.password);
+   return isValid
 };
-const user = mongoose.model('User', userSchema);
+const user = mongoose.model<IUser>('User', userSchema);
 export default user;

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { IBigProject } from '../interfaces/index';
 const bigProjectsSchema = new mongoose.Schema({
   image: {
     type: String,
@@ -28,5 +29,5 @@ const bigProjectsSchema = new mongoose.Schema({
     ],
   },
 });
-const bigProjects = mongoose.model('BigProjects', bigProjectsSchema);
+const bigProjects = mongoose.model<IBigProject>('BigProjects', bigProjectsSchema);
 export default bigProjects;

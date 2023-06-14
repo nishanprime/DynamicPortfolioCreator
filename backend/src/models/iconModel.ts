@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { IIcon } from '../interfaces/index';
 
 const iconModelSchema = new mongoose.Schema({
   name: {
@@ -11,5 +12,5 @@ const iconModelSchema = new mongoose.Schema({
   },
 });
 
-const iconModel = mongoose.model('Icons', iconModelSchema);
+const iconModel = mongoose.model<IIcon>('Icons', iconModelSchema);
 export default iconModel;

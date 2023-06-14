@@ -1,5 +1,6 @@
+import {ObjectId} from "mongoose"
 export default interface IBase {
-    id: number;
+    _id: ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
     created_by?: string;

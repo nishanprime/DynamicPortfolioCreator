@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response, Next } from "express";
 import {
   authUser,
   registerUser,
@@ -18,14 +19,14 @@ router.route('/register').post(registerUser);
 router.route('/update').put(protect, updateUser);
 router
   .route('/upload/:type')
-  .post(protect, upload.single('upload'), (req, res, send) => {
+  .post(protect, upload.single('upload'), (req:Request, res:Response) => {
     const key = req.file.key;
     const fullImageUrl =
       `${process.env.BACKEND_URI}/api/users/files/` + key;
     res.send(fullImageUrl);
   });
 
-router.route('/files/:username/:type/:key').get((req, res) => {
+router.route('/files/:username/:type/:key').get((req:Request, res:Response) => {
   try {
     const key = req.params.key;
     const username = req.params.username;

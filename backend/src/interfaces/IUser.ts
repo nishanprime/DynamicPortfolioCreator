@@ -1,4 +1,5 @@
 import IBase from "./IBase";
+import IPersonalProject from "./IPersonalProject";
 import ISkills from "./ISkills";
 export default interface IUser extends IBase {
     username: string;
@@ -18,6 +19,7 @@ export default interface IUser extends IBase {
     resume: string;
     bigProjects: string; // projects interface object
     skills: ISkills[]; //skills interface array
-    personalProjects: string; // personal projects interface object
+    personalProjects: IPersonalProject[]; // personal projects interface object
     contact: string; // contact interface object
+    matchPassword?: (enteredPassword: string) => Promise<boolean>;
 }

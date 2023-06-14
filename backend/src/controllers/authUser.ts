@@ -1,19 +1,21 @@
-import expressAsyncHandler from 'express-async-handler';
-import multer from 'multer';
-import multerS3 from 'multer-s3';
-import aws from 'aws-sdk';
-import User from '../models/userModel';
-import path from 'path';
-import generateToken from '../utils/generateToken';
-const authUser = expressAsyncHandler(async (req, res) => {
+import expressAsyncHandler from "express-async-handler";
+import { Request, Response } from "express";
+import multer from "multer";
+import multerS3 from "multer-s3";
+import aws from "aws-sdk";
+import User from "../models/userModel";
+import path from "path";
+import generateToken from "../utils/generateToken";
+import { IUser } from "../interfaces";
+const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user: IUser = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       about: user.about,
       contact: user.contact,
-      created: user.created,
+      created: user.createdAt,
       email: user.email,
       endDescription: user.endDescription,
       username: user.username,
@@ -33,42 +35,44 @@ const authUser = expressAsyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(401).send({ message: 'Invalid email or password' });
+    res.status(401).send({ message: "Invalid email or password" });
   }
 });
 
 // dummy registration of User
-const registerUser = expressAsyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+const registerUser = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    const { username, email, password } = req.body;
 
-  const data = { email, password, username };
-  const userExists =
-    (await User.findOne({ email })) || (await User.findOne({ username }));
-  if (userExists) {
-    res.status(400);
-    throw new Error('User with this Email or Username already exists');
+    const data = { email, password, username };
+    const userExists =
+      (await User.findOne({ email })) || (await User.findOne({ username }));
+    if (userExists) {
+      res.status(400);
+      throw new Error("User with this Email or Username already exists");
+    }
+    const user = await User.create(data);
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid user data");
+    }
   }
-  const user = await User.create(data);
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      username: user.username,
-    });
-  } else {
-    res.status(400);
-    throw new Error('Invalid user data');
-  }
-});
+);
 
 //update user
-const updateUser = expressAsyncHandler(async (req, res) => {
+const updateUser = expressAsyncHandler(async (req: Request, res: Response) => {
   //update user
   const user = await User.findById(req.user._id);
-  console.log(user.contact)
-  console.log(req.body.contact)
+  console.log(user.contact);
+  console.log(req.body.contact);
   if (user) {
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
@@ -88,7 +92,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
       _id: updatedUser._id,
       about: updatedUser.about,
       contact: updatedUser.contact,
-      created: updatedUser.created,
+      created: updatedUser.createdAt,
       email: updatedUser.email,
       endDescription: updatedUser.endDescription,
       username: updatedUser.username,
@@ -110,43 +114,45 @@ const updateUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const getInfoFromUsername = expressAsyncHandler(async (req, res) => {
-  try {
-    const user = await User.findOne({ username: req.params.username });
-    if (user) {
-      res.json({
-        _id: user._id,
-        about: user.about,
-        contact: user.contact,
-        created: user.created,
-        email: user.email,
-        endDescription: user.endDescription,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        gender: user.gender,
-        githubLink: user.githubLink,
-        linkedinLink: user.linkedinLink,
-        logo: user.logo,
-        personalProjects: user.personalProjects,
-        profilePicture: user.profilePicture,
-        resume: user.resume,
-        skills: user.skills,
-        startDescription: user.startDescription,
-        bigProjects: user.bigProjects,
-        title: user.title,
-        token: generateToken(user._id),
-      });
-    } else {
-      throw new Error('User not found');
+const getInfoFromUsername = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      const user = await User.findOne({ username: req.params.username });
+      if (user) {
+        res.json({
+          _id: user._id,
+          about: user.about,
+          contact: user.contact,
+          created: user.createdAt,
+          email: user.email,
+          endDescription: user.endDescription,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          gender: user.gender,
+          githubLink: user.githubLink,
+          linkedinLink: user.linkedinLink,
+          logo: user.logo,
+          personalProjects: user.personalProjects,
+          profilePicture: user.profilePicture,
+          resume: user.resume,
+          skills: user.skills,
+          startDescription: user.startDescription,
+          bigProjects: user.bigProjects,
+          title: user.title,
+          token: generateToken(user._id),
+        });
+      } else {
+        throw new Error("User not found");
+      }
+    } catch (error) {
+      res.status(404).json({ message: error.message });
     }
-  } catch (error) {
-    res.status(404).json({ message: error.message });
   }
-});
+);
 
 //setting up s3 endpoint to digitalocean space
-const spacesEndpoint = new aws.Endpoint('nyc3.digitaloceanspaces.com');
+const spacesEndpoint = new aws.Endpoint("nyc3.digitaloceanspaces.com");
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
   accessKeyId: process.env.SPACE_ACCESS_KEY_ID,
@@ -156,13 +162,13 @@ const s3 = new aws.S3({
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'dynamicportfolio',
+    bucket: "dynamicportfolio",
 
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      req.params.type === 'profile'
+      req.params.type === "profile"
         ? cb(
             null,
             `${req.user.username}/profile/profilepic${path.extname(
@@ -183,19 +189,19 @@ const upload = multer({
 export const getFileStream = (fileKey) => {
   const downloadParams = {
     Key: fileKey,
-    Bucket: 'dynamicportfolio',
+    Bucket: "dynamicportfolio",
   };
   return s3.getObject(downloadParams).createReadStream();
 };
 
-const getAllInfo = expressAsyncHandler(async (req, res) => {
+const getAllInfo = expressAsyncHandler(async (req: Request, res: Response) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    return {
+    res.json( {
       _id: user._id,
       about: user.about,
       contact: user.contact,
-      created: user.created,
+      created: user.createdAt,
       email: user.email,
       endDescription: user.endDescription,
       username: user.username,
@@ -213,11 +219,12 @@ const getAllInfo = expressAsyncHandler(async (req, res) => {
       bigProjects: user.bigProjects,
       title: user.title,
       token: generateToken(user._id),
-    };
+    });
   } else {
     res.status(404);
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
+
 });
 export {
   authUser,
