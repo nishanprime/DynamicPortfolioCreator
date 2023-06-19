@@ -16,7 +16,7 @@ jobs:
         run: |
           mkdir backend/env
           cp /var/www/mywebsite/prod_env/backend.env backend/env/prod.env
-          cp /var/www/mywebsite/prod_env/frontend.env fronted/.env.production
+          cp /var/www/mywebsite/prod_env/frontend.env frontend/.env.production
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
