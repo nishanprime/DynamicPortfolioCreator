@@ -1,28 +1,28 @@
-# version: "3"
-# services:
-#   nginx:
-#     restart: always
-#     build:
-#       context: ./nginx
-#     ports:
-#       - "3000:80"
-#       - "8000:90"
-#   frontend:
-#     build:
-#       context: ./frontend
-#   backend:
-#     build:
-#       context: ./backend
-version: '3'
+version: "3"
 services:
-  backend:
-    build: .
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
     ports:
-      - 8000:8000
+      - "3000:80"
+      - "8000:90"
   frontend:
-    build: .
-    ports:
-      - 3000:3000
+    build:
+      context: ./frontend
+  backend:
+    build:
+      context: ./backend
+
+# # just one docker image
+# version: '3'
+# services:
+#   dynamicportfolio:
+#     image: nishanprime/dynamicportfolio
+#     ports:
+#       - 8000:8000
+#       - 3000:3000
+  
 
 
   
