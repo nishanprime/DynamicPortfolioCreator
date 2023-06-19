@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cat ./build/.env && node build/server.js",
+    "start": "node build/server.js",
     "dev": "rm -rf .env && cp ./env/local.env ./.env && nodemon server.ts",
     "prebuild": "rm -rf build && mkdir build && cp ./env/prod.env ./build/.env",
     "build": "tsc"

@@ -1,5 +1,8 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({
+  path: `${__dirname}/.env`,
+});
+console.log(__dirname)
 import express from "express";
 import cors from "cors";
 import DataBase from "./src/config/db";
