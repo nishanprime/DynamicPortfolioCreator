@@ -1,12 +1,18 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+import cors from "cors";
 import DataBase from "./config/db";
 import RootRoutes from "./routes/index.routes";
-import { allowedOrigins } from "./utils/allowedOrigins";
 
 const app = express();
-allowedOrigins(app);
+const allowedOrigins = ["https://dynamicportfolio.io"];
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // connect to the database
