@@ -13,4 +13,16 @@ services:
   backend:
     build:
       context: ./backend
+
+# # just one docker image
+# version: '3'
+# services:
+#   dynamicportfolio:
+#     image: nishanprime/dynamicportfolio
+#     ports:
+#       - 8000:8000
+#       - 3000:3000
+  
+
+
   
