@@ -9,7 +9,7 @@ const app = express();
 const allowedOrigins = ["https://dynamicportfolio.io"];
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: "https://dynamicportfolio.io",
     credentials: true,
   })
 );
