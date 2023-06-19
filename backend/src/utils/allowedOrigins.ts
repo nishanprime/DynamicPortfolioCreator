@@ -1,12 +1,12 @@
 import cors from "cors";
 
 const allowedOrigins = (app) => {
-  let allowedOrigins = [];
-
+  let allowedOrigins;
+  console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV === "production") {
-    allowedOrigins = ["https://dynamicportfolio.io"];
+    allowedOrigins = "https://dynamicportfolio.io";
   } else if (process.env.NODE_ENV === "development") {
-    allowedOrigins = ["http://localhost:3000"];
+    allowedOrigins = "http://localhost:3000";
   }
   app.use(
     cors({
