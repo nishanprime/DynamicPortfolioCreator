@@ -14,9 +14,9 @@ jobs:
           ref: main
       - name: Copying env contents from backend.env to .env inside backend folder & frontend.env to .env inside frontend folder
         run: |
-          mkdir -p backend/env
+          mkdir backend/env
           cp /var/www/mywebsite/prod_env/backend.env backend/env/prod.env
-          cp /var/www/mywebsite/prod_env/frontend.env frontend/.env.production
+          cp /var/www/mywebsite/prod_env/frontend.env fronted/.env.production
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
