@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node build/server.js",
+    "start": "cat ./build/.env && node build/server.js",
     "dev": "rm -rf .env && cp ./env/local.env ./.env && nodemon server.ts",
-    "prebuild": "rm -rf build && echo 'deleted build folder' && mkdir build && echo 'created new build folder | printing .env contents inside of build folder' && cp ./env/prod.env ./build/.env && cat ./build/.env",
+    "prebuild": "rm -rf build && mkdir build && cp ./env/prod.env ./build/.env",
     "build": "tsc"
   },
   "repository": {
