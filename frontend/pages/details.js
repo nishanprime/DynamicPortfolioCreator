@@ -81,41 +81,37 @@ export default function DetailInput() {
     try {
       if (targetFile === 'profile-upload') {
         setPictureUploading(true);
-        formData.append('upload', file);
+        formData.append('file', file);
         const config = {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${user.token}`,
           },
         };
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/upload/profile`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/upload`,
           formData,
           config
         );
-        console.log(data);
         console.log('Printing data from profile upload: ', data);
-        console.log(data);
-        setProfilePicture(data);
+        setProfilePicture(data.fileUrl);
         setPictureUploading(false);
         setFileUploading(false);
 
         return;
       } else if (targetFile === 'resume-upload') {
         setFileUploading(true);
-        formData.append('upload', file);
+        formData.append('file', file);
         const config = {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${user.token}`,
           },
         };
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/users/upload/resume`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/upload`,
           formData,
           config
         );
-        setResume(data);
+        setResume(data.fileUrl);
         setPictureUploading(false);
         setFileUploading(false);
         return;
@@ -373,7 +369,7 @@ export default function DetailInput() {
                         </div>
                         <div>
                           <Image
-                            src="https://dazzlesl.info/wp-content/uploads/2021/05/quartadis180900107.jpg"
+                            src="/resume.png"
                             height="80"
                             width="80"
                           />

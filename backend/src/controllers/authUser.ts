@@ -1,8 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import multer from "multer";
-import multerS3 from "multer-s3";
-import aws from "aws-sdk";
 import User from "../models/userModel";
 import path from "path";
 import generateToken from "../utils/generateToken";
@@ -153,47 +150,9 @@ const getInfoFromUsername = expressAsyncHandler(
 );
 
 //setting up s3 endpoint to digitalocean space
-const spacesEndpoint = new aws.Endpoint("nyc3.digitaloceanspaces.com");
-const s3 = new aws.S3({
-  endpoint: spacesEndpoint,
-  accessKeyId: process.env.SPACE_ACCESS_KEY_ID,
-  secretAccessKey: process.env.SPACE_SECRET_KEY,
-});
-//upload helper
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "dynamicportfolio",
 
-    metadata: function (req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: function (req, file, cb) {
-      req.params.type === "profile"
-        ? cb(
-            null,
-            `${req.user.username}/profile/profilepic${path.extname(
-              file.originalname
-            )}`
-          )
-        : cb(
-            null,
-            `${req.user.username}/resume/resume${path.extname(
-              file.originalname
-            )}`
-          );
-    },
-  }),
-});
 
-//download file info
-export const getFileStream = (fileKey) => {
-  const downloadParams = {
-    Key: fileKey,
-    Bucket: "dynamicportfolio",
-  };
-  return s3.getObject(downloadParams).createReadStream();
-};
+
 
 const getAllInfo = expressAsyncHandler(async (req: Request, res: Response) => {
   const user = await User.findById(req.user._id);
@@ -236,5 +195,4 @@ export {
   updateUser,
   getAllInfo,
   getInfoFromUsername,
-  upload,
 };

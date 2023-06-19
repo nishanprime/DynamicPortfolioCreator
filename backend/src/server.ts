@@ -10,13 +10,12 @@ app.use(express.json());
 
 // connect to the database
 const db = new DataBase(process.env.MONGO_URI, {
-  ssl: true,
 });
-
+db.connectDB();
 // root routes
 RootRoutes(app)
 
-db.connectDB();
+
 
 app.listen(process.env.PORT, () => {
   console.log('Server is running on port', process.env.PORT);
